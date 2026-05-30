@@ -630,23 +630,7 @@
           </div>
         </div>
 
-        <!-- Quick Metrics Summary Panel -->
-        <div class="bg-indigo-900 text-white rounded-2xl p-6 space-y-4 shadow-md">
-          <h3 class="text-xs uppercase font-extrabold tracking-widest text-indigo-200">Aggregate Scope of Audit</h3>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <span class="text-[10px] uppercase font-bold text-indigo-300">Audited Sales</span>
-              <p class="text-2xl font-black mt-1" id="scope-total-sales">283 <span class="text-xs text-indigo-200 font-normal">Cases</span></p>
-            </div>
-            <div>
-              <span class="text-[10px] uppercase font-bold text-indigo-300">Audited Pipeline</span>
-              <p class="text-xl font-black mt-1 text-emerald-300" id="scope-total-pipeline">₹78.68 L</p>
-            </div>
-          </div>
-          <div class="border-t border-indigo-800 pt-3 text-[11px] text-indigo-200 leading-relaxed">
-            🔒 <strong>Note:</strong> All figures parsed conform strictly to course breakdown totals of Anil Goyal, Jyoti Za, Aashish Mangal, Mithesh Parmar, Chrisheba Macwan, and Pratik Pandya.
-          </div>
-        </div>
+        
       </aside>
 
       <!-- RIGHT PANEL: DYNAMIC INTERACTIVE DETAIL VIEW -->
@@ -1324,7 +1308,7 @@
 
     // Walkin Performance Data Array - Synchronized with Oct 2025 - May 2026 PDF
     const walkinData = [
-      { name: "Anil Goyal", walkins: 101, converted: 62, agreed: 1173971, paid: 898689 },
+      { name: "Anil Goyal", walkins: 101, converted: 86, agreed: 1173971, paid: 898689 },
       { name: "Jyoti Za", walkins: 86, converted: 50, agreed: 954811, paid: 688221 },
       { name: "Aashish Mangal", walkins: 76, converted: 46, agreed: 681906, paid: 556416 },
       { name: "Mithesh Parmar", walkins: 13, converted: 5, agreed: 178807, paid: 82225 },
@@ -3457,12 +3441,18 @@
       const totalAuditedSales = counsellorsData.reduce((acc, curr) => acc + curr.totalSales, 0);
       const totalAuditedAgreed = counsellorsData.reduce((acc, curr) => acc + curr.totalAgreed, 0);
 
-      document.getElementById('scope-total-sales').innerHTML = `${totalAuditedSales} <span class="text-xs text-indigo-200 font-normal">Cases</span>`;
+      const scopeSalesElem = document.getElementById('scope-total-sales');
+      if (scopeSalesElem) {
+        scopeSalesElem.innerHTML = `${totalAuditedSales} <span class="text-xs text-indigo-200 font-normal">Cases</span>`;
+      }
       
-      if (currentCurrencyStyle === 'IN') {
-        document.getElementById('scope-total-pipeline').innerText = `₹${(totalAuditedAgreed / 100000).toFixed(2)} L`;
-      } else {
-        document.getElementById('scope-total-pipeline').innerText = `$${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalAuditedAgreed)}`;
+      const scopePipeElem = document.getElementById('scope-total-pipeline');
+      if (scopePipeElem) {
+        if (currentCurrencyStyle === 'IN') {
+          scopePipeElem.innerText = `₹${(totalAuditedAgreed / 100000).toFixed(2)} L`;
+        } else {
+          scopePipeElem.innerText = `$${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalAuditedAgreed)}`;
+        }
       }
     }
 
